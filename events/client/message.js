@@ -38,7 +38,7 @@ module.exports = {
             const reason = "Using a banned word";
             let strike = profile.strikes.find((s) => s.reason === reason);
             if (!strike) {
-                strike = { reason, count: 0 };
+                strike = { reason, count: 1 };
                 profile.strikes.push(strike);
             }
             strike.count++;
@@ -50,7 +50,7 @@ module.exports = {
             );
 
             message.reply(
-                `You have been given a strike for: ${reason}. You now have ${totalStrikes} strikes.`,
+                `You have been given a strike for: \`${reason}\`. You now have **${totalStrikes} strikes.**`,
             );
         }
     },
