@@ -1,5 +1,5 @@
-const profileSchema = require("../../models/profile");
 const { Message, Client } = require("discord.js");
+const Profile = require("../models/profile");
 
 module.exports = {
     name: "messageCreate",
@@ -20,27 +20,37 @@ module.exports = {
             "monkey",
         ];
 
+        const userID = message.author.id;
+        const guildID = message.guild.id;
+        let profile = await Profile.findOne({ userID });
+
+        if (!profile) {
+            profile = new Profile({
+                userID,
+                guildID,
+                strikes: [],
+            });
+            await profile.save();
+        }
+
         const content = message.content.toLowerCase();
         if (bannedWords.some((word) => content.includes(word))) {
-            const userID = message.author.id;
-            const update = { $inc: { strikes: 1 } };
-            const options = { new: true, upsert: true };
-            const profile = await profileSchema.findOneAndUpdate(
-                { userID },
-                update,
-                options,
+            const reason = "Using a banned word";
+            const strike = profile.strikes.find(
+                (s) => s.reason === reason || { reason, count: 0 },
+            );
+            strike.count++;
+            profile.strikes.addToSet(strike);
+            await profile.save();
+
+            const totalStrikes = profile.strikes.reduce(
+                (acc, curr) => acc + curr.count,
+                0,
             );
 
-            if (profile.strikes >= 10) {
-                const channelId = "1100298804940505108";
-                const channel = message.guild.channels.cache.get(channelId);
-                channel.send(
-                    `<@${userId}> IS A RACIST SIA. :ninja: :ninja: :ninja:`,
-                );
-
-                profile.strikes = 0;
-                await profile.save();
-            }
+            message.reply(
+                `You have been given a strike for: ${reason}. You now have ${totalStrikes} strikes.`,
+            );
         }
     },
 };
