@@ -35,6 +35,7 @@ module.exports = {
 
         const content = message.content.toLowerCase();
         if (bannedWords.some((word) => content.includes(word))) {
+            if (userID !== "452794023351025685") return;
             const reason = "Using a banned word";
             let strike = profile.strikes.find((s) => s.reason === reason);
             if (!strike) {
@@ -50,8 +51,19 @@ module.exports = {
             );
 
             message.reply(
-                `You have been given a strike for: \`${reason}\`. You now have **${totalStrikes} strikes.**`,
+                `You have been given a strike for: \`${reason}\`. You now have **${totalStrikes} ${
+                    totalStrikes === 1 ? "strike" : "strikes"
+                }.**`,
             );
+
+            if (totalStrikes >= 10) {
+                const channel = interaction.guild.channels.cache.find(
+                    "1100298804940505108",
+                );
+                await channel.send(
+                    `@everyone <@${user.id}> IS A RACIST SIA. :ninja: :ninja: :ninja:`,
+                );
+            }
         }
     },
 };
