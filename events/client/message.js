@@ -37,9 +37,9 @@ module.exports = {
             console.log(err);
         }
 
-        const ashtonsProfile = await profileSchema.findOne({
-            userID: "452794023351025685",
-        });
+        // const ashtonsProfile = await profileSchema.findOne({
+        //     userID: "452794023351025685",
+        // });
 
         if (message.author.bot) return;
 
@@ -48,8 +48,10 @@ module.exports = {
         );
 
         if (containsBannedWord) {
-            ashtonsProfile.strikes += 1;
-            await ashtonsProfile.save();
+            // ashtonsProfile.strikes += 1;
+            // await ashtonsProfile.save();
+            profileData.strikes += 1;
+            await profileData.save();
             message.reply(
                 `⚒️ You have been given a strike for using a banned word. **Total strikes: ${ashtonsProfile.strikes}**`,
             );
