@@ -36,11 +36,12 @@ module.exports = {
         const content = message.content.toLowerCase();
         if (bannedWords.some((word) => content.includes(word))) {
             const reason = "Using a banned word";
-            const strike = profile.strikes.find(
-                (s) => s.reason === reason || { reason, count: 0 },
-            );
+            let strike = profile.strikes.find((s) => s.reason === reason);
+            if (!strike) {
+                strike = { reason, count: 0 };
+                profile.strikes.push(strike);
+            }
             strike.count++;
-            profile.strikes.addToSet(strike);
             await profile.save();
 
             const totalStrikes = profile.strikes.reduce(
