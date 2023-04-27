@@ -33,7 +33,7 @@ module.exports = {
 
         if (user.id !== "452794023351025685") {
             return interaction.reply({
-                content: "You're not Ashton.",
+                content: "The user you are trying to strike is not Ashton.",
             });
         }
 
