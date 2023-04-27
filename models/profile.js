@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const profileSchema = new mongoose.Schema({
+const Profile = new mongoose.Schema({
     userID: { type: String, require: true, unique: true },
     guildID: { type: String, require: true },
     strikes: [
@@ -11,6 +11,6 @@ const profileSchema = new mongoose.Schema({
     ],
 });
 
-const model = mongoose.model("Profile", profileSchema);
+const model = mongoose.model("Profile", Profile);
 
 module.exports = model;

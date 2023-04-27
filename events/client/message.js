@@ -1,5 +1,5 @@
 const { Message, Client } = require("discord.js");
-const Profile = require("../models/profile");
+const Profile = require("../../models/profile");
 
 module.exports = {
     name: "messageCreate",
