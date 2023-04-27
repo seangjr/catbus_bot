@@ -22,11 +22,11 @@ module.exports = {
 
         const content = message.content.toLowerCase();
         if (bannedWords.some((word) => content.includes(word))) {
-            const userId = message.author.id;
+            const userID = message.author.id;
             const update = { $inc: { strikes: 1 } };
             const options = { new: true, upsert: true };
             const profile = await profileSchema.findOneAndUpdate(
-                { userId },
+                { userID },
                 update,
                 options,
             );
@@ -35,7 +35,7 @@ module.exports = {
                 const channelId = "1100298804940505108";
                 const channel = message.guild.channels.cache.get(channelId);
                 channel.send(
-                    `<@${userId}> is a racist sia. :ninja: :ninja: :ninja:`,
+                    `<@${userId}> IS A RACIST SIA. :ninja: :ninja: :ninja:`,
                 );
 
                 profile.strikes = 0;
