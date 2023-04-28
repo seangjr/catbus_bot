@@ -35,7 +35,7 @@ module.exports = {
 
         const content = message.content.toLowerCase();
         if (bannedWords.some((word) => content.includes(word))) {
-            if (userID !== "452794023351025685") return;
+            if (userID !== "452794023351025685") return; // ONLY ASHTON CAN BE TRACKED FOR RACISM just cause
             const reason = "Using a banned word";
             let strike = profile.strikes.find((s) => s.reason === reason);
             if (!strike) {
