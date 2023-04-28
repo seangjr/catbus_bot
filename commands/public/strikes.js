@@ -33,6 +33,13 @@ module.exports = {
                 ephemeral: true,
             });
 
+        // if the user has no strikes, return
+        if (profile.strikes.length === 0)
+            return interaction.reply({
+                content: "This user has no strikes!",
+                ephemeral: true,
+            });
+
         const embed = new EmbedBuilder()
             .setAuthor({
                 name: client.user.username,
@@ -40,16 +47,9 @@ module.exports = {
             })
             .setTitle(`${user.username}'s strikes`)
             .setDescription(
-                `${
-                    profile.strikes
-                        ? profile.strikes
-                              .map(
-                                  (strike) =>
-                                      `${strike.reason} - ${strike.count}`,
-                              )
-                              .join("\n")
-                        : `<@${user.id}> has no strikes!}`
-                }`,
+                `${profile.strikes
+                    .map((strike) => `${strike.reason} - ${strike.count}`)
+                    .join("\n")}`,
             )
             .setColor("#FFFFFF")
             .setTimestamp();
