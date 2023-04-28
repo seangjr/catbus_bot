@@ -40,9 +40,16 @@ module.exports = {
             })
             .setTitle(`${user.username}'s strikes`)
             .setDescription(
-                `${profile.strikes
-                    .map((strike) => `${strike.reason} - ${strike.count}`)
-                    .join("\n")}`,
+                `${
+                    profile.strikes
+                        ? profile.strikes
+                              .map(
+                                  (strike) =>
+                                      `${strike.reason} - ${strike.count}`,
+                              )
+                              .join("\n")
+                        : `<@${user.id}> has no strikes!}`
+                }`,
             )
             .setColor("#FFFFFF")
             .setTimestamp();
